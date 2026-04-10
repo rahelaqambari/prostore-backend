@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('productdetails', function (Blueprint $table) {
             $table->id();
+            $table->string("brand");
+            $table->string("catagory");
+            $table->text("description");
+            $table->foreignId("pro_id")->constrained("products");
             $table->timestamps();
         });
     }
