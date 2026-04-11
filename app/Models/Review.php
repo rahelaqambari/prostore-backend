@@ -9,4 +9,11 @@ class Review extends Model
 {
     /** @use HasFactory<\Database\Factories\ReviewFactory> */
     use HasFactory;
+
+    public function product(){
+        return $this->belongsTo(Product::class,"pro_id");
+    }
+    public function productDetails(){
+        return $this->belongsTo(User::class,"user_id");
+    }
 }

@@ -9,4 +9,8 @@ class Image extends Model
 {
     /** @use HasFactory<\Database\Factories\ImageFactory> */
     use HasFactory;
+
+    public function product(){
+        return $this->morphTo();
+    }
 }
