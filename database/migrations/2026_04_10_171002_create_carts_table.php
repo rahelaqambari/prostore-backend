@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cartitems', function (Blueprint $table) {
+        Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->string("pro_name");
-            $table->decimal("price",12);
-            $table->decimal("quntity");
-             $table->foreignId("pro_id")->constrained("products");
+             $table->foreignId("cartitem_id")->constrained("cartitems");
+             $table->foreignId("user_id")->constrained("users");
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cartitems');
+        Schema::dropIfExists('carts');
     }
 };
