@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('productdetails', function (Blueprint $table) {
-            $table->id();
-            $table->string("brand");
-            $table->string("catagory");
-            $table->text("description");
-            $table->foreignId("pro_id")->constrained("products");
-            $table->timestamps();
-        });
+        // Schema::create('productdetails', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string("brand");
+        //     $table->string("catagory");
+        //     $table->text("description");
+        //     $table->foreignId("pro_id")->constrained("products");
+        //     $table->timestamps();
+        // });
     }
 
     /**

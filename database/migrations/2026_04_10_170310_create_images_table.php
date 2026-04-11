@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
-            $table->id();
-            $table->string("img_url");
-            $table->string("imageable_id");
-            $table->string("imageable_type");
-            $table->timestamps();
-        });
+        // Schema::create('images', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string("img_url");
+        //     $table->string("imageable_id");
+        //     $table->string("imageable_type");
+        //     $table->timestamps();
+        // });
     }
 
     /**
