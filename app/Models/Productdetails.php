@@ -9,4 +9,14 @@ class Productdetails extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductdetailsFactory> */
     use HasFactory;
+     protected $fillable = [
+        "catagory",
+        "brand",
+        "description",
+        "pro_id",
+    ];
+
+    public function products(){
+        return $this->belongsTo(Product::class,"pro_id");
+    }
 }

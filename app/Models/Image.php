@@ -9,6 +9,11 @@ class Image extends Model
 {
     /** @use HasFactory<\Database\Factories\ImageFactory> */
     use HasFactory;
+     protected $fillable = [
+        "imgurl",
+        "imageAble_type",
+        "imageable-id",
+    ];
 
     public function product(){
         return $this->morphTo();
