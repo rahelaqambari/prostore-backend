@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('cartitems', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string("pro_name");
-        //     $table->decimal("price",12);
-        //     $table->decimal("quntity");
-        //      $table->foreignId("pro_id")->constrained("products");
-        //     $table->timestamps();
-        // });
+        Schema::create('cartitems', function (Blueprint $table) {
+            $table->id();
+            $table->decimal("price",12);
+            $table->integer("quntity");
+             $table->foreignId("pro_id")->constrained("products");
+            $table->timestamps();
+        });
     }
 
     /**
