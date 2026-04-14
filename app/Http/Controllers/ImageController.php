@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,11 +12,6 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $data = Product::with(['productDetails','images'])->paginate(10);
-        return response()->json([
-            "data"=> $data,
-            "message"=>"Success"
-        ], 200);
     }
 
     /**
@@ -26,7 +20,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
-
     }
 
     /**
@@ -35,10 +28,6 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
-        $product = Product::findOrFail($id);
-            return response()->json([
-            "data"=> $product
-        ]);
     }
 
     /**

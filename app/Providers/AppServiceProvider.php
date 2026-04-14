@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Relation::enforceMorphMap([
-            'products'=>Product::class,
+            'products'=>product::class,
         ]);
     }
 }
