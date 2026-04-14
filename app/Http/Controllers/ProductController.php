@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Image;
 use App\Models\Product;
+use App\Models\Productdetails;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -23,10 +26,36 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         //
+        $product = new Product();
+        $product->create([
+            "name"=> $request->name,
+            "stock"=> $request->stock,
+            "price"=> $request->price,
+        ]);
+        $product->save();
 
+        $productDetails = new Productdetails();
+        $productDetails->create([
+            "brand"=> $request->barnd,
+            "description"=> $request->description,
+            "product_id"=> $request->id,
+            "category"=> $request->cat,
+        ]);
+        $productDetails->save();
+        $path = null;
+        if($request->hasFile("image")){
+            $path = $request->file("image")->store("pro_img","public");
+        }
+        $image = new Image();
+        $image->create([
+            "image_url"=> $path,
+            "imageable_id"=> $product,
+            "imageable_type"=> Product::class
+        ]);
+        $image->save();
     }
 
     /**
