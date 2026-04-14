@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
@@ -12,6 +13,10 @@ class ImageController extends Controller
     public function index()
     {
         //
+        $data = Image::with('imageable')->get();
+        return response()->json([
+            "data"=> $data,
+        ]);
     }
 
     /**
