@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Productdetails;
@@ -17,10 +18,11 @@ class ProductController extends Controller
     {
         //
         $data = Product::with(['productDetails','images'])->paginate(10);
-        return response()->json([
-            "data"=> $data,
-            "message"=>"Success"
-        ], 200);
+        return ProductResource::collection($data);
+        // return response()->json([
+        //     "data"=> $data,
+        //     "message"=>"Success"
+        // ], 200);
     }
 
     /**
