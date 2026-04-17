@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\Productdetails;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -23,7 +24,7 @@ class ProductController extends Controller
         //     "data"=> $data,
         //     "message"=>"Success"
         // ], 200);
-    }
+    }                                        
 
     /**
      * Store a newly created resource in storage.
@@ -78,6 +79,20 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        try{
+           $product =  Product::findOrFail($id)->first();
+           $product->update([
+
+           ]);
+
+        }catch(Exception $err){
+            return response()->json(
+                [
+                    "error"=>$err->getMessage(),
+                ]
+            );
+
+        }
     }
 
     /**
