@@ -82,8 +82,42 @@ class ProductController extends Controller
         try{
            $product =  Product::findOrFail($id)->first();
            $product->update([
-
+            "name"=>$request->name,
+            "price"=>$request->price,
+            "stock"=>$request->stock,
            ]);
+           $product->save();
+
+
+           $productDetails = Productdetails::where("product_id",$product->id)->first();
+           $productDetails->update(
+            [
+                "description"=> $request->description,
+                "category"=> $request->category,
+                "brand"=> $request->brand,
+            ]
+           );
+           $productDetails->save();
+        //    image
+        $imgurl = null;
+        $imgurl2 = null;
+        if($request->hasFile('image1')){
+          $imgurl =  $request->file('image1')->store('pro_images','public');
+
+        }
+        $images = Image::where('imageable_type',Product::class)->where('imageable_id',$product->id)->get();
+        if($i = 0; count($images)>0; $i++){
+            $images->update([
+            "imageable_type"=>$product->id,
+            "image_url"=>$imgurl,
+        ]);
+        }
+        else{
+            $images->update([
+                "image_url"=>$imgurl2
+            ]);
+        }
+        
 
         }catch(Exception $err){
             return response()->json(
