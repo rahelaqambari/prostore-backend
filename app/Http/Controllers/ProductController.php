@@ -31,46 +31,32 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        //
-        $product = new Product();
-        $product->create([
+        $product = Product::create([
             "name"=> $request->name,
             "stock"=> $request->stock,
             "price"=> $request->price,
         ]);
         $product->save();
-
-        $productDetails = new Productdetails();
-        $productDetails->create([
-            "brand"=> $request->barnd,
+        $product->load(['productDatiles','images']);
+        $product->productDetails()->create([
+            "brand"=> $request->brand,
             "description"=> $request->description,
-            "product_id"=> $request->id,
-            "category"=> $request->cat,
+            "category"=> $request->category,
+            "pro_id"=> $request->$product->id,
         ]);
-        $productDetails->save();
-        $path = null;
-        if($request->hasFile("image")){
-            $path = $request->file("image")->store("pro_img","public");
-        }
-        $image = new Image();
-        $image->create([
-            "image_url"=> $path,
-            "imageable_id"=> $product,
-            "imageable_type"=> Product::class
-        ]);
-        $image->save();
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-        $product = Product::findOrFail($id);
-            return response()->json([
-            "data"=> $product
-        ]);
+        $images = [];
+        if($request->hasFile("image1")){
+            $images[] = ["img_url" => $request->file('image1')->store("pro_images","public")];
+           
+        }
+        if($request->hasFile("image2")){
+            $images[] = ["img_url" => $request->file('image2')->store("pro_images","public")];
+           
+        }
+        if(!empty($images)){
+            $product->images()->createMany($images);
+        }
     }
 
     /**
@@ -78,46 +64,34 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        try{
-           $product =  Product::findOrFail($id)->first();
-           $product->update([
-            "name"=>$request->name,
-            "price"=>$request->price,
-            "stock"=>$request->stock,
-           ]);
-           $product->save();
+      try{
+            $product = Product::findOrFail($id);
+            $product->update([
+                "name"=>$request->name,
+                "price"=>$request->price,
+                "stock"=>$request->stock,
+            ]);
 
-
-           $productDetails = Productdetails::where("product_id",$product->id)->first();
-           $productDetails->update(
-            [
+            $productDetails = Productdetails::where('product_id',$id)->first();
+            $productDetails->update([
                 "description"=> $request->description,
                 "category"=> $request->category,
                 "brand"=> $request->brand,
-            ]
-           );
-           $productDetails->save();
-        //    image
-        $imgurl = null;
-        $imgurl2 = null;
-        if($request->hasFile('image1')){
-          $imgurl =  $request->file('image1')->store('pro_images','public');
-
-        }
-        $images = Image::where('imageable_type',Product::class)->where('imageable_id',$product->id)->get();
-        if($i = 0; count($images)>0; $i++){
-            $images->update([
-            "imageable_type"=>$product->id,
-            "image_url"=>$imgurl,
-        ]);
-        }
-        else{
-            $images->update([
-                "image_url"=>$imgurl2
             ]);
-        }
-        
+
+            if($request->hasFile('image1')){
+                $imgurl =  $request->file('image1')->store('pro_images','public');
+                Image::create([
+                    "imageable_type"=>Product::class,
+                    "imageable_id"=>$product->id,
+                    "image_url"=>$imgurl,
+                ]);
+            }
+
+            return response()->json([
+                "data"=> new ProductResource($product),
+                "message"=>"Product updated successfully"
+            ], 200);
 
         }catch(Exception $err){
             return response()->json(
