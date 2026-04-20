@@ -37,7 +37,7 @@ class ProductController extends Controller
             "price"=> $request->price,
         ]);
         $product->save();
-        $product->load(['productDatiles','images']);
+        // $product->load(['productDatiles','images']);
         $product->productDetails()->create([
             "brand"=> $request->brand,
             "description"=> $request->description,
@@ -109,5 +109,15 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+        try{
+            $product = Product::findOrFail($id);
+            $product->delete();
+            return response()->json([
+                "message"=>"Product deleted successfully"
+            ], 200);
+        }catch(Exception $err){
+            return response()->json([
+                "error"=>$err->getMessage(),    
+            ], 500);                                        
     }
 }
