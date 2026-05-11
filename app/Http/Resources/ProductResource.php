@@ -21,10 +21,10 @@ class ProductResource extends JsonResource
             "brand" =>$this->productDetails->brand,
             "description" =>$this->productDetails->description,
             "category" =>$this->productDetails->category,
-            "image" =>$this->images->img_url,
-            // "image" =>$this->images->map(function($images){
-            //     return asset("storage/" .$images->img_url);
-            // }),
+            // "image" =>$this->images->img_url,
+            "image" =>$this->images->map(function($images){
+                return asset("storage/" .$images->img_url);
+            }),
         ];
     }
 }

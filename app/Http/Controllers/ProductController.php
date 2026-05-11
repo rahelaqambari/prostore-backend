@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $data = Product::with(['productDetails','images'])->paginate(10);
+        $data = Product::with(['productDetails','images','reviwes'])->orderBy('created_at','desc')->paginate(4);
         return ProductResource::collection($data);
         // return response()->json([
         //     "data"=> $data,
@@ -42,9 +42,9 @@ class ProductController extends Controller
             "brand"=> $request->brand,
             "description"=> $request->description,
             "category"=> $request->category,
-            "pro_id"=> $request->$product->id,
+            "pro_id"=> $product->id,
         ]);
-
+        // images
         $images = [];
         if($request->hasFile("image1")){
             $images[] = ["img_url" => $request->file('image1')->store("pro_images","public")];
@@ -54,9 +54,8 @@ class ProductController extends Controller
             $images[] = ["img_url" => $request->file('image2')->store("pro_images","public")];
            
         }
-        if(!empty($images)){
+      
             $product->images()->createMany($images);
-        }
     }
 
     /**
@@ -64,35 +63,40 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-      try{
+        try{
             $product = Product::findOrFail($id);
             $product->update([
-                "name"=>$request->name,
-                "price"=>$request->price,
-                "stock"=>$request->stock,
+                "name"=> $request->name,
+                "stock"=> $request->stock,
+                "price"=> $request->price,
             ]);
-
-            $productDetails = Productdetails::where('product_id',$id)->first();
-            $productDetails->update([
-                "description"=> $request->description,
-                "category"=> $request->category,
-                "brand"=> $request->brand,
-            ]);
-
-            if($request->hasFile('image1')){
-                $imgurl =  $request->file('image1')->store('pro_images','public');
-                Image::create([
-                    "imageable_type"=>Product::class,
-                    "imageable_id"=>$product->id,
-                    "image_url"=>$imgurl,
-                ]);
-            }
-
+            $product->save();
             return response()->json([
-                "data"=> new ProductResource($product),
                 "message"=>"Product updated successfully"
             ], 200);
+            // $product->load(['productDatiles','images']);
+            // $product->productDetails()->update([
+            //     "brand"=> $request->brand,
+            //     "description"=> $request->description,
+            //     "category"=> $request->category,
+            //     "pro_id"=> $request->$product->id,
+            // ]);
 
+            // $images = [];
+            // if($request->hasFile("image1")){
+            //     $images[] = ["img_url" => $request->file('image1')->store("pro_images","public")];
+               
+            // }
+            // if($request->hasFile("image2")){
+            //     $images[] = ["img_url" => $request->file('image2')->store("pro_images","public")];
+               
+            // }
+            // if(!empty($images)){
+            //     // delete the old images
+            //     Image::where('pro_id', $product->id)->delete();
+            //     //  new images
+            //     $product->images()->createMany($images);
+            // }
         }catch(Exception $err){
             return response()->json(
                 [
@@ -108,16 +112,20 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         try{
             $product = Product::findOrFail($id);
+            $product->load(["images","product"]);
             $product->delete();
             return response()->json([
                 "message"=>"Product deleted successfully"
             ], 200);
         }catch(Exception $err){
-            return response()->json([
-                "error"=>$err->getMessage(),    
-            ], 500);                                        
-    }
+            return response()->json(
+                [
+                    "error"=>$err->getMessage(),
+                ]
+            );
+
+        }
+     }
 }
