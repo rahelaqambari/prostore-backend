@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReviewResource;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,7 @@ class Reviwcontroller extends Controller
     public function index()
     {
         $reviews = Review::with(['user','product'])->get(); 
-        return response()->json([
-            "data"=>$reviews
-        ]);
+        return ReviewResource::collection($reviews); 
     }
 
     /**
