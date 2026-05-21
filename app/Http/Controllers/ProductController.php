@@ -44,18 +44,23 @@ class ProductController extends Controller
             "category"=> $request->category,
             "pro_id"=> $product->id,
         ]);
-        // images
         $images = [];
-        if($request->hasFile("image1")){
-            $images[] = ["img_url" => $request->file('image1')->store("pro_images","public")];
-           
-        }
-        if($request->hasFile("image2")){
-            $images[] = ["img_url" => $request->file('image2')->store("pro_images","public")];
-           
-        }
-      
-            $product->images()->createMany($images);
+
+if($request->hasFile("image1")){
+    $images[] = [
+        "img_url" => $request->file('image1')->store("pro_images","public")
+    ];
+}
+
+if($request->hasFile("image2")){
+    $images[] = [
+        "img_url" => $request->file('image2')->store("pro_images","public")
+    ];
+}
+
+if(count($images) > 0){
+    $product->images()->createMany($images);
+}
     }
 
     /**

@@ -10,7 +10,7 @@ class Productdetails extends Model
     /** @use HasFactory<\Database\Factories\ProductdetailsFactory> */
     use HasFactory;
      protected $fillable = [
-        "catagory",
+        "category",
         "brand",
         "description",
         "pro_id",

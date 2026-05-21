@@ -9,10 +9,10 @@ class Image extends Model
 {
     /** @use HasFactory<\Database\Factories\ImageFactory> */
     use HasFactory;
-     protected $fillable = [
-        "imgurl",
-        "imageAble_type",
-        "imageable-id",
+    protected $fillable = [
+        "img_url",
+        "imageable_id",
+        "imageable_type",
     ];
 
     public function product(){

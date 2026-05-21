@@ -25,6 +25,7 @@ class Reviwcontroller extends Controller
     {
         $review = Review::create($request->validated());
         $review->load(['user','product']);
+        return new ReviewResource($review);
     }
 
     /**
