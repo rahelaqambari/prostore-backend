@@ -10,4 +10,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource("products",ProductController::class);
-Route::apiResource("reviews",Reviwcontroller::class);
+Route::apiResource("reviews",Reviwcontroller::class)->middleware('auth:sanctum');
