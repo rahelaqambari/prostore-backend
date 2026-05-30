@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Reviwcontroller;
 use Illuminate\Http\Request;
@@ -11,3 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource("products",ProductController::class);
 Route::apiResource("reviews",Reviwcontroller::class)->middleware('auth:sanctum');
+Route::apiResource("auth",AuthController::class);
