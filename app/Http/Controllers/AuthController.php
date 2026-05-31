@@ -38,6 +38,18 @@ class AuthController extends Controller
             "email"=> "required|string|min:3",
             "password"=> "required|string|min:5",
         ]);
+       $user =  User::where('email',$request->email)->first();
+       if($user && Hash::check($request->password, $user->password)){
+        $user->createToken('auth_token')->palinTextToken;
+        return response()->json([
+            "data" => $user->token,
+        ]);
+       }
+       else{
+        return response()->json([
+            "data" => "Something went wrong",
+        ]);
+       }
 
     }
 
