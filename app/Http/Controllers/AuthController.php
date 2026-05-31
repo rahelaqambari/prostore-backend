@@ -22,7 +22,7 @@ class AuthController extends Controller
         foreach($users as $user) {
             if($user->email== $request->email && Hash::check($request->password, $user->password)){
                 return response()->json([
-                    "data" => "A User IS Found",
+                    "data" => "The User that You Added Is Match With This User".$user->name,
                 ]);
             }
         }
@@ -34,6 +34,11 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         //
+         $request->validate([
+            "email"=> "required|string|min:3",
+            "password"=> "required|string|min:5",
+        ]);
+
     }
 
     /**
