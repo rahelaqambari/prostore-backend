@@ -21,4 +21,5 @@ class Cart extends Model
     public function cartitem(){
         return $this->belongsTo(Cartitem::class,"cartitem_id");
     }
+    
 }

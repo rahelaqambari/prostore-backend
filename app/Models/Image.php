@@ -18,4 +18,8 @@ class Image extends Model
     public function product(){
         return $this->morphTo();
     }
+
+    public function cart(){
+        return $this->belongsTo(Cart::class) ;
+    }
 }
