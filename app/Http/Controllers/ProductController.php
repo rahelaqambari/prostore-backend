@@ -57,6 +57,8 @@ if($request->hasFile("image2")){
         "img_url" => $request->file('image2')->store("pro_images","public")
     ];
 }
+//  loveabel
+//  qaaf
 
 if(count($images) > 0){
     $product->images()->createMany($images);
