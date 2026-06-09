@@ -23,6 +23,7 @@ class AuthController extends Controller
             if($user->email== $request->email && Hash::check($request->password, $user->password)){
                 return response()->json([
                     "data" => "The User that You Added Is Match With This User".$user->name,
+                    "success"=>true,
                 ]);
             }
         }
@@ -46,14 +47,16 @@ class AuthController extends Controller
         ]);
        $user =  User::where('email',$request->email)->first();
        if($user && Hash::check($request->password, $user->password)){
-        $user->createToken('auth_token')->palinTextToken;
+        $token = $user->createToken('auth_token')->palinTextToken;
         return response()->json([
-            "data" => $user->token,
+            "data" => $token,
+            "success" =>true
         ]);
        }
        else{
         return response()->json([
             "data" => "Something went wrong",
+             "success" =>false
         ]);
        }
 

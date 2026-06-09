@@ -12,4 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource("products",ProductController::class);
 Route::apiResource("reviews",Reviwcontroller::class)->middleware('auth:sanctum');
-Route::apiResource("auth",AuthController::class)->only('rejester');
+Route::apiResource("auth",AuthController::class)->only('store');
