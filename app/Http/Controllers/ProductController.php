@@ -48,7 +48,7 @@ class ProductController extends Controller
 
 if($request->hasFile("image1")){
     $images[] = [
-        "img_url" => $request->file('image1')->store("pro_images","public")
+        "img_url" => $request->file('image1')->store("images","public")
     ];
 }
 

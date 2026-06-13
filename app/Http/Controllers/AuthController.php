@@ -46,8 +46,8 @@ class AuthController extends Controller
             "password.required"=>"the password fiald is required",
         ]);
        $user =  User::where('email',$request->email)->first();
-       if($user && Hash::check($request->password, $user->password)){
-        $token = $user->createToken('auth_token')->palinTextToken;
+        if($user && Hash::check($request->password, $user->password)){
+          $token =  $user->createToken('auth_token')->plainTextToken;
         return response()->json([
             "data" => $token,
             "success" =>true
@@ -55,7 +55,7 @@ class AuthController extends Controller
        }
        else{
         return response()->json([
-            "data" => "Something went wrong",
+            "data" => "Something went wrong this user is not match",
              "success" =>false
         ]);
        }
