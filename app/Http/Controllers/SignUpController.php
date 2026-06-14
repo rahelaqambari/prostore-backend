@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class SignUpController extends Controller
@@ -31,6 +33,17 @@ class SignUpController extends Controller
             "password.min"=>"the passwrod must be more than 5 chars",
             "password.required"=>"the password fiald is required",
         ]);
+        try{
+           $user =  User::create();
+             $token =  $user->createToken('SignUp')->plainTextToken;
+        return response()->json([
+            "Message" => $token,
+            "Status" =>true
+        ]);
+        }
+        catch(Exception $err){
+
+        }
     }
 
     /**
