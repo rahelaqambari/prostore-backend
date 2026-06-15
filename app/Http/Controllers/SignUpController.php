@@ -34,15 +34,18 @@ class SignUpController extends Controller
             "password.required"=>"the password fiald is required",
         ]);
         try{
-           $user =  User::create();
-             $token =  $user->createToken('SignUp')->plainTextToken;
+           $user =  User::create($request->validated());
+             $token =  $user->createToken()->plainTextToken;
         return response()->json([
             "Message" => $token,
             "Status" =>true
         ]);
         }
         catch(Exception $err){
-
+            return response()->json([
+                "Message"=> "could not sign up the user .",
+                "Status"=> false,
+            ]);
         }
     }
 
