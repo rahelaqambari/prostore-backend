@@ -42,8 +42,8 @@ class SignUpController extends Controller
            ]);
              $token =  $user->createToken('auth_token')->plainTextToken;
         return response()->json([
-            "Message" => $token,
-            "Status" =>true
+            "message" => $token,
+            "status" =>true
         ]);
         }
         catch(Exception $err){
