@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\createReviewRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use SebastianBergmann\Timer\Exception;
 
 class Reviwcontroller extends Controller
 {
@@ -52,5 +54,34 @@ class Reviwcontroller extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function allReviwes(){
+        try{
+           $review = Review::getDate('created_at','<=',Carbon::now()->subDays(30))->count();
+           return response()->json([
+            "AllReview" => $review
+           ]);
+        }
+        catch(Exception $err){
+            return response()->json([
+                "AllReview" => $err->getMessage()
+            ]);
+        }
+    }
+
+    public function lastMonthReviewes(){
+        try{
+           $lastreview = Review::getDate('created_at','<=',Carbon::now()->subDays(30))->whereDate('created_at','>=',Carbon::now()->subdays(60))->count();
+           return response()->json([
+            "lastMonthReviewes" => $lastreview
+           ]);
+        }
+        catch(Exception $err){
+            return response()->json([
+                "lastMinthReviewes" => $err->getMessage()
+            ]);
+        }
     }
 }
