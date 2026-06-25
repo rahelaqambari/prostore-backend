@@ -73,14 +73,14 @@ class Reviwcontroller extends Controller
 
     public function lastMonthReviewes(){
         try{
-           $lastreview = Review::getDate('created_at','<=',Carbon::now()->subDays(30))->whereDate('created_at','>=',Carbon::now()->subdays(60))->count();
+           $lastreview = Review::whereDate('created_at','>=',Carbon::now()->subDays(30))->whereDate('created_at','<=',Carbon::now()->subdays(60))->count();
            return response()->json([
             "lastMonthReviewes" => $lastreview
            ]);
         }
         catch(Exception $err){
             return response()->json([
-                "lastMinthReviewes" => $err->getMessage()
+                "lastMonthReviewes" => $err->getMessage()
             ]);
         }
     }

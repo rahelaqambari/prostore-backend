@@ -11,6 +11,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::prefix('dashboard')->group(function() {
+ Route::get("/allreviews",[Reviwcontroller::class,'allReviwes']);
+ Route::get("lastmonthreviews",[Reviwcontroller::class,'lastMonthReviewes']);
+});
 Route::apiResource("products",ProductController::class);
 Route::apiResource("reviews",Reviwcontroller::class)->middleware('auth:sanctum');
 Route::apiResource("auth",AuthController::class)->only('store');
