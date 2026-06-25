@@ -93,5 +93,19 @@ class UserController extends Controller
             ]);
         }
     }
+
+     public function lastMonthUser(){
+        try{
+           $lastUser = User::whereDate('created_at','>=',Carbon::now()->subDays(30))->whereDate('created_at','<=',Carbon::now()->subdays(60))->count();
+           return response()->json([
+            "lastMonthUser" => $lastUser
+           ]);
+        }
+        catch(Exception $err){
+            return response()->json([
+                "lastMonthUser" => $err->getMessage()
+            ]);
+        }
+    }
     
 }
