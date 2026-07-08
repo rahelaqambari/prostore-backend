@@ -17,6 +17,7 @@ Route::prefix('dashboard')->group(function() {
  Route::get("lastmonthreviews",[Reviwcontroller::class,'lastMonthReviewes']);
  Route::get("/alluser",[UserController::class,'alluser']);
  Route::get("/lastMonthUser",[UserController::class,'lastMonthUser']);
+ Route::apiResource('all-user',UserController::class);
 });
 Route::apiResource("products",ProductController::class);
 Route::apiResource("reviews",Reviwcontroller::class)->middleware('auth:sanctum');
