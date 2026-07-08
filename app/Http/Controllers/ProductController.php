@@ -54,7 +54,7 @@ if($request->hasFile("image1")){
 
 if($request->hasFile("image2")){
     $images[] = [
-        "img_url" => $request->file('image2')->store("pro_images","public")
+        "img_url" => $request->file('image2')->store("images","public")
     ];
 }
 //  loveabel
