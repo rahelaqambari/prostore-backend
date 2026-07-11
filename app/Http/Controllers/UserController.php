@@ -59,6 +59,18 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+        try{
+        $user =  User::findOrFail($id);
+        $user->delete();
+        }
+        catch(Exception $err){
+            return response()->json([
+                "message"=> "something went wrong" . $err->getMessage(),
+                "state" => false
+
+            ]);
+
+        }
     }
 
      public function alluser(){
